@@ -177,6 +177,11 @@ import audios from './components/subcomponents/playAudio';
              isShow:false,
            }
        },
+       updated(){
+         if(this.$route==`/videoplayer/${this.$route.params.videoId}`){
+           document.querySelector('video').pause;
+         }
+       },
        methods: {
            popList(){           
                this.sheetVisible = true;

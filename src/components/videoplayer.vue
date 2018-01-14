@@ -17,6 +17,7 @@
    
 <script>
    import subcomment from './subcomponents/subcomment';
+   import bus from '../bus/bus';
    export default {
        components:{
            subcomment

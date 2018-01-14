@@ -38,7 +38,7 @@
                         <p>最新音乐 ></p>
                     </div>
                     <div class="content">
-                        <router-link to="/songinfo" v-for="(item,index) in newSongData" :key="index">
+                        <router-link :to="'/playlist/detail/'+item.id" v-for="item in newSongData" :key="item.id">
                             <img :src="item.coverImgUrl" alt="">
                             <p>{{item.name}}</p>
                         </router-link>
@@ -49,7 +49,7 @@
                         <p>独家放送 ></p>
                     </div>
                     <div class="content only">
-                        <router-link to="/songinfo" v-for="(item,index) in privateContent" :key="index">
+                        <router-link :to="'/playlist/detail/'+item.id" v-for="(item,index) in privateContent" :key="index">
                             <img :src="item.picUrl" alt="">
                             <p>{{item.name}}</p>
                         </router-link>
