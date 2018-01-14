@@ -27,7 +27,7 @@
                     <span class="mui-badge mui-badge-primary"></span>
                 </li>
             </ul>        
-        </div>  
+        </div> 
    </div>
 </template>
    
@@ -44,39 +44,41 @@
   justify-content: space-around;
   align-items: center;
 }
-.top>img {
-    margin-right: 20px;
+.top > img {
+  margin-right: 20px;
   flex: 1;
   width: 40%;
 }
 .top .text {
   flex: 1;
 }
-.top .text img{
-    width: 30px;
-    border-radius: 50%;
-    vertical-align: bottom;
+.top .text img {
+  width: 30px;
+  border-radius: 50%;
+  vertical-align: bottom;
 }
-.top .text span{
-    font-size: 12px;
+.top .text span {
+  font-size: 12px;
 }
 .bottom {
-    padding: 0 10px;
+  padding: 0 10px;
 }
-.bottom span{
-    margin: 0 5px;
+.bottom span {
+  margin: 0 5px;
 }
-.mint-cell{
-    margin: 1px 0;
+.mint-cell {
+  margin: 1px 0;
 }
 </style>
    
 <script>
+import bus from '../bus/bus';
 export default {
   data() {
     return {
       coverData: {},
-      songList:[]
+      songList: [],
+      audioUrl:''
     };
   },
   created() {
@@ -90,18 +92,19 @@ export default {
       this.$http.get(url).then(res => {
         this.coverData = res.body.playlist;
         this.songList = res.body.playlist.tracks;
-          console.log(this.songList);
+        // console.log(this.songList);
         this.coverData.avatar = res.body.playlist.creator.avatarUrl;
         this.coverData.creator = res.body.playlist.creator.nickname;
       });
     },
-    getSongById(id){
-         const url = `${this.apihost}/music/url?id=${id}`;
-      //    console.log(url);
-      this.$http.get(url).then(res => {
-        //   console.log(res.body.data[0].url);
-          this.$store.commit('setSongUrl',res.body.data[0].url);
-      }).catch(err=>{})
+    getSongById(id) {
+      const url = `${this.apihost}/music/url?id=${id}`;
+      this.$http
+        .get(url)
+        .then(res => {
+          bus.$emit('pushUrl',res.body.data[0].url);
+        })
+        .catch(err => {});
     }
   }
 };

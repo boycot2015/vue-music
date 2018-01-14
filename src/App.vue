@@ -28,7 +28,7 @@
             </mt-tab-item>
             <mt-tab-item id="tab2">
                 <i class="mui-icon mui-icon-refresh"></i>
-                <audio :src="audioUrl" :autoplay="autoplay"></audio>
+                <audios></audios>
             </mt-tab-item>
             <mt-tab-item id="tab2" >
               <i class="mui-icon mui-icon-bars" @click="popList"></i>
@@ -155,7 +155,11 @@
 </style>
    
 <script>
+import audios from './components/subcomponents/playAudio';
    export default {
+       components:{
+          audios
+        },
        data() {
            return {
              sheetVisible:false,
@@ -171,20 +175,10 @@
                ],
              cancelText:'',
              isShow:false,
-             audioUrl:'',
-             autoplay:false
            }
        },
-       updated(){
-         this.play();
-       },
-       
-       created() {
-          
-       },
        methods: {
-           popList(){
-             
+           popList(){           
                this.sheetVisible = true;
            },
            showUser(){
@@ -196,17 +190,7 @@
             //  alert(1)
             document.body.style.overflow = 'visible';
              this.isShow = !this.isShow;
-           },
-           play(){
-             this.audioUrl = this.$store.getters.getSongUrl;
-             console.log(this.audioUrl);
-             this.autoplay = true;
            }
-       },
-       watch:{
-         audioUrl:function(){
-          //  this.play();
-         }
        }
    }
 </script>

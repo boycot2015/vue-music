@@ -39,9 +39,25 @@
 </body>
 <script src="./src/static/mui/js/mui.js"></script>
 <script>
-    console.dir(document.querySelector('a.mui-icon'));
+    // console.dir(document.querySelector('a.mui-icon'));
     
-    mui('.mui-off-canvas-wrap').offCanvas('toggle');
-
+    // mui('.mui-off-canvas-wrap').offCanvas('toggle');
+    var arr = [0,4,3,-3,-4];
+    for (var i = 0; i < arr.length; i++) {
+      if(arr[i]<0){
+        arr.splice(i,1);
+      } 
+    }
+    console.log(arr);
+    function delayedCallback(fn){  
+          
+        return clearTimeout(fn);
+    }
+    setTimeout(() => {
+      delayedCallback(fn)
+    }, 1000);
+    function fn(){
+      console.log('我会在1秒后调用');
+    }
 </script>
 </html>
