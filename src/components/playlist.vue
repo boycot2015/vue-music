@@ -28,6 +28,7 @@
 </style>
    
 <script>
+import { Indicator } from 'mint-ui';
 export default {
   data() {
     return {
@@ -35,6 +36,10 @@ export default {
     };
   },
   created() {
+    //加载动画开始
+      Indicator.open({
+        spinnerType: 'triple-bounce'
+      });
     this.getplayListData();
   },
   methods: {
@@ -44,6 +49,7 @@ export default {
       this.$http.get(url).then(
         res => {
           callback(res);
+          Indicator.close();
         },
         err => {}
       );

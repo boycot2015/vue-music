@@ -14,8 +14,13 @@
       </router-link>
     </header>
     <div class="body">
-      <router-view></router-view>
+      <div class="container">
+        <transition :name="transitionName" >
+          <router-view class="child-view"></router-view>
+        </transition>
+      </div>     
     </div>
+    
     
     <div class="footer">
       <mt-tabbar fixed>
@@ -41,161 +46,215 @@
 </template>
    
 <style >
-  body{
-    margin: 0;
-    padding: 0;
-  }
-  .userSide{
-    width: 100%;
-    height: 110%;
-    margin-top: -90px;
-    position: fixed;
-    z-index: 999;
-    transform: translateX(-100%);
-    transition: all 0.5s;
-  }
-  .mask{
-    position: absolute;
+body {
+  margin: 0;
+  padding: 0;
+  
+}
+.root{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.userSide {
+  width: 100%;
+  height: 110%;
+  transform: translateY(-90px);
+  /* margin-top: -90px; */
+  position: fixed;
+  z-index: 999;
+  transform: translateX(-100%);
+  transition: all 0.5s;
+}
+.mask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+.userSide.show {
+  transform: translateX(0%);
+}
+.userSide .container {
+  width: 70%;
+  height: 100%;
+  position: absolute;
+  background: #fff;
+}
+.mui-bar.mui-bar-nav {
+  top: -1px;
+  -webkit-box-shadow: none;
+}
+.mui-off-canvas-wrap {
+  height: 50px;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+.mui-off-canvas-left {
+  width: 300px;
+  transform: translateX(300px);
+}
+.mui-content.mui-scroll-wrapper {
+  height: 100%;
+}
+.mint-header.is-fixed {
+  background-color: red;
+}
+.mint-navbar .mint-tab-item.is-selected {
+  color: red;
+  border-bottom: 2px solid red;
+  margin-bottom: -1px;
+}
+.mint-header-title {
+  font-size: 18px;
+}
+.body {
+  margin: 40px 0;
+  width: 100%;
+  height: 100%;
+}
+.mint-tabbar.is-fixed {
+  height: 50px;
+  display: flex;
+}
+a .mint-tab-item-label {
+  line-height: 30px;
+  font-size: 16px;
+}
+.footer {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+.footer .mint-tab-item {
+  text-align: center;
+  flex: 4;
+}
+.footer img {
+  width: 32px;
+  margin-top: -8px;
+}
+.footer .right {
+  height: 46px;
+}
+.footer .right span {
+  display: block;
+}
+.mint-tab-item-label {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 12px;
+}
+.mint-tab-item-label p {
+  margin-bottom: 0;
+  margin-top: 5px;
+  line-height: 12px;
+}
+.mint-tab-item-label span {
+  font-size: 10px;
+}
+.footer .mint-tab-item-label:nth-of-type(1) {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.footer .mint-tab-item:nth-of-type(2),
+.footer .mint-tab-item:nth-of-type(3) {
+  flex: 1;
+  padding-top: 10px;
+}
+
+.container{
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);    
-  }
-  .userSide.show{
-    transform: translateX(0%);
-  }
-  .userSide .container{
-    width: 70%;
-    height: 100%;
+    overflow: hidden;
+}
+/* 上面是为了保证滑动的时候不出现抖动情况 */
+.child-view {
     position: absolute;
-    background: #fff;
-  }
-  .mui-bar.mui-bar-nav{
-    top: -1px;
-    -webkit-box-shadow: none;
-  }
-  .mui-off-canvas-wrap{
-    height: 50px;
-    position: fixed;
+    left:0;
     top: 0;
-    left: 0;
-  }
-  .mui-off-canvas-left{
-    width: 300px;
-    transform: translateX(300px);
-  }
-  .mui-content.mui-scroll-wrapper{
     height: 100%;
-    
-  }
-  .mint-header.is-fixed{
-    background-color: red;
-  }
-  .mint-navbar .mint-tab-item.is-selected{
-    color: red;
-    border-bottom: 2px solid red;
-    margin-bottom: -1px;
-  }
-   .mint-header-title{
-     font-size: 18px;
-   }
-   .body{
-     margin: 40px 0;
-   }
-   .mint-tabbar.is-fixed{
-     height: 50px;
-     display: flex;
-   }
-   a .mint-tab-item-label{
-     line-height: 30px;
-     font-size: 16px;
-   }
-   .footer{
-     height: 50px;
-     position: fixed;
-   }
-   .footer .mint-tab-item{
-     text-align: center;
-      flex: 4;
-   }
-   .footer img{
-     width: 32px;
-    margin-top: -8px;
-    
-   }
-   .footer .right{
-    height: 46px;
-   }
-   .footer .right span{
-     display: block;
-   }
-   .mint-tab-item-label{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    font-size: 12px;
-   }
-   .mint-tab-item-label p{
-     margin-bottom: 0;
-     margin-top: 5px;
-     line-height: 12px;
-   }
-   .mint-tab-item-label span{
-     font-size: 10px;
-   }
-   .footer .mint-tab-item-label:nth-of-type(1){
-     display: flex;
-     align-items: center;
-     justify-content: space-around;
-   }
-   .footer .mint-tab-item:nth-of-type(2),
-   .footer .mint-tab-item:nth-of-type(3){
-     flex: 1;
-     padding-top: 10px;
-   }
+    width: 100%;
+    transition: all .5s cubic-bezier(.55,0,.1,1);
+    background-color: #f2f2f2;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+/* 当child-view的内容过多时会撑开child-view使得内部能够滚动 */
+.slide-left-enter, .slide-right-leave-active {
+    opacity: 0;
+    -webkit-transform: translate(750px, 0);
+    transform:translate(750px, 0);
+}
+.slide-left-leave-active, .slide-right-enter {
+    opacity: 0;
+    -webkit-transform: translate( -750px, 0);
+    transform: translate(-750px, 0);
+}
+.slide-enter-active {
+    -webkit-transition: all .3s ease;
+    transition: all .3s ease;
+}
+.slide-leave-active {
+    -webkit-transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+/* 然后写上切换时候的类名的CSS变化(这里最好看一下VUE的transition文档) */
 </style>
    
 <script>
-import audios from './components/subcomponents/playAudio';
-   export default {
-       components:{
-          audios
-        },
-       data() {
-           return {
-             sheetVisible:false,
-             actions:[
-               {name:'红颜',method:''},
-               {name:'红颜',method:''},
-               {name:'红颜',method:''},
-               {name:'红颜',method:''},
-               {name:'红颜',method:''},
-               {name:'红颜',method:''},
-               {name:'红颜',method:''},
-               {name:'红颜',method:''}
-               ],
-             cancelText:'',
-             isShow:false,
-           }
-       },
-       updated(){
-         if(this.$route==`/videoplayer/${this.$route.params.videoId}`){
-           document.querySelector('video').pause;
-         }
-       },
-       methods: {
-           popList(){           
-               this.sheetVisible = true;
-           },
-           showUser(){
-            //  console.log(this.isShow); 
-             document.body.style.overflow = 'hidden';
-             this.isShow = !this.isShow;
-           },
-           hideSide(){
-            //  alert(1)
-            document.body.style.overflow = 'visible';
-             this.isShow = !this.isShow;
-           }
-       }
-   }
+import audios from "./components/subcomponents/playAudio";
+export default {
+  components: {
+    audios
+  },
+  data() {
+    return {
+      transitionName:'',
+      sheetVisible: false,
+      actions: [
+        { name: "红颜", method: "" },
+        { name: "红颜", method: "" },
+        { name: "红颜", method: "" },
+        { name: "红颜", method: "" },
+        { name: "红颜", method: "" },
+        { name: "红颜", method: "" },
+        { name: "红颜", method: "" },
+        { name: "红颜", method: "" }
+      ],
+      cancelText: "",
+      isShow: false,
+    };
+  },
+  watch: {
+    $route(to, from) {
+      const toDepth = to.path.split("/").length;
+      const fromDepth = from.path.split("/").length;
+      this.transitionName = toDepth < fromDepth ? "slide-right" : "slide-left";
+    }
+  },
+  updated() {
+    if (this.$route == `/videoplayer/${this.$route.params.videoId}`) {
+      document.querySelector("video").pause;
+    }
+  },
+  methods: {
+    popList() {
+      this.sheetVisible = true;
+    },
+    showUser() {
+      //  console.log(this.isShow);
+      document.body.style.overflow = "hidden";
+      this.isShow = !this.isShow;
+    },
+    hideSide() {
+      //  alert(1)
+      document.body.style.overflow = "visible";
+      this.isShow = !this.isShow;
+    }
+  }
+};
 </script>

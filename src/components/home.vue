@@ -49,7 +49,7 @@
                         <p>独家放送 ></p>
                     </div>
                     <div class="content only">
-                        <router-link :to="'/playlist/detail/'+item.id" v-for="(item,index) in privateContent" :key="index">
+                        <router-link :to="'/videoplayer/'+item.id" v-for="(item,index) in privateContent" :key="index">
                             <img :src="item.picUrl" alt="">
                             <p>{{item.name}}</p>
                         </router-link>
@@ -92,6 +92,7 @@
    
 <style scoped>
 .homeRoot{
+    /* transform: translateY(40px); */
     margin-top: 90px;
 }
 .mui-btn.mui-btn-danger{
@@ -119,7 +120,9 @@ a {
     padding: 10px 0;
 }
 .mint-navbar.page-part.is-fixed{
+    /* transform: translateY(40px); */
     margin-top: 40px;
+    /* transition: all 0.5s; */
 }
 .mint-swipe-indicator{
     opacity: 0.4;
@@ -197,6 +200,7 @@ a {
 <script>
 import subdj from './subcomponents/dj';
 import submv from './subcomponents/mv';
+import { Indicator } from 'mint-ui';
 export default {
     components:{
         subdj,submv
@@ -215,6 +219,10 @@ export default {
     };
   },
   created() {
+      //加载动画开始
+      Indicator.open({
+        spinnerType: 'triple-bounce'
+      });
     this.getImageData();
     this.getRecommend();
     this.getnewSong();
@@ -229,12 +237,15 @@ export default {
       this.$http
         .get(url)
         .then(res => {
-          callback(res);
+            callback(res);
+            //加载动画结束
+        Indicator.close();
         },err => {})
     },
     getImageData() {
       this.getData("/banner", res => {
         //  console.log(res.body);
+          
         this.imgData = res.body.banners;
       });
     },
@@ -258,13 +269,13 @@ export default {
     },
     getPrivatecontent(){
          this.getData("/personalized/privatecontent", res => {
-        //  console.log(res.body);
+         console.log(res.body);
         this.privateContent = res.body.result;
       });
     },
     getDjprogram(){
          this.getData("/personalized/djprogram", res => {
-         console.log(res.body);
+        //  console.log(res.body);
         this.DjprogramData = res.body.result;
       });
     }

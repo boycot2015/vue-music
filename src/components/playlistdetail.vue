@@ -21,8 +21,8 @@
                 <span style="color: green">多选</span>
             </mt-cell>
             <ul class="mui-table-view">
-                <li @click="getSongById(item.id)" v-for="item in songList" :key="item.id" class="mui-table-view-cell">
-                    <p>{{item.name}}</p> 
+                <li @click="getSongById(item.id)" v-for="(item,index) in songList" :key="item.id" class="mui-table-view-cell">
+                    <span>{{index+1}} {{item.name}}</span> 
                     <p>{{item.ar[0].name}} - {{item.al.name}}</p>
                     <span class="mui-badge mui-badge-primary"></span>
                 </li>
@@ -73,6 +73,7 @@
    
 <script>
 import bus from '../bus/bus';
+import { Indicator } from 'mint-ui';
 export default {
   data() {
     return {
@@ -81,27 +82,36 @@ export default {
       audioUrl:''
     };
   },
+  beforeCreate(){
+    //加载动画开始
+      Indicator.open({
+        spinnerType: 'fading-circle'
+      });
+  },
   created() {
-    this.getlistDetailData();
+    this.getlistDetailData();  
   },
   methods: {
     getlistDetailData() {
+      
       const url = `${this.apihost}/playlist/detail?id=${this.$route.params
         .listId}`;
       //    console.log(url);
       this.$http.get(url).then(res => {
+        //加载动画结束
+        Indicator.close();
         this.coverData = res.body.playlist;
-        this.songList = res.body.playlist.tracks;
         // console.log(this.songList);
         this.coverData.avatar = res.body.playlist.creator.avatarUrl;
         this.coverData.creator = res.body.playlist.creator.nickname;
+        this.songList = res.body.playlist.tracks;
       });
     },
-    getSongById(id) {
+    getSongById(id) { 
       const url = `${this.apihost}/music/url?id=${id}`;
       this.$http
         .get(url)
-        .then(res => {
+        .then(res => {        
           bus.$emit('pushUrl',res.body.data[0].url);
         })
         .catch(err => {});

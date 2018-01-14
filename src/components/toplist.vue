@@ -59,6 +59,7 @@ p.mui-ellipsis {
 </style>
    
 <script>
+import { Indicator } from 'mint-ui';
 export default {
   data() {
     return {
@@ -66,14 +67,20 @@ export default {
       globalData: []
     };
   },
-  created() {
+  beforeMount(){
+    //加载动画开始
+      Indicator.open({
+        spinnerType: 'triple-bounce'
+      });
+  },
+  created() {  
     for (let j = 0; j < 5; j++) {
       this.getTopListData(j);
     }
     for (let i = 5; i <= 23; i++) {
       this.getGlobalData(i);
     }
-  console.log(this.globalData);
+  // console.log(this.globalData);
     // this.getTopListData(0);
     // this.getTopListData(1);
     // this.getTopListData(2);
@@ -86,7 +93,10 @@ export default {
       //console.log(url);
       this.$http.get(url).then(
         res => {
+           
           callback(res);
+          //加载动画结束
+        Indicator.close();
         },
         err => {}
       );
