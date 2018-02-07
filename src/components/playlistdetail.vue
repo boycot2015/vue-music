@@ -1,6 +1,6 @@
 <template>
    <div>
-        <div class="topCover">
+        <div class="topCover" v-if="isBack">
             <div class="top">
                 <img :src="coverData.coverImgUrl" alt="">
                 <div class="text">
@@ -16,7 +16,7 @@
                 <span>下载({{coverData.playCount}})</span>
             </div>
         </div>
-        <div class="listcontent">
+        <div class="listcontent" v-if="isBack">
             <mt-cell :title="`播放全部(${coverData.trackCount})`"  is-link>
                 <span style="color: green">多选</span>
             </mt-cell>
@@ -69,6 +69,9 @@
 .mint-cell {
   margin: 1px 0;
 }
+.listcontent{
+  margin-bottom:50px;
+}
 </style>
    
 <script>
@@ -79,7 +82,8 @@ export default {
     return {
       coverData: {},
       songList: [],
-      audioUrl:''
+      audioUrl:'',
+      isBack:false
     };
   },
   beforeCreate(){
@@ -92,14 +96,14 @@ export default {
     this.getlistDetailData();  
   },
   methods: {
-    getlistDetailData() {
-      
+    getlistDetailData() {      
       const url = `${this.apihost}/playlist/detail?id=${this.$route.params
         .listId}`;
       //    console.log(url);
       this.$http.get(url).then(res => {
         //加载动画结束
         Indicator.close();
+        this.isBack = true;
         this.coverData = res.body.playlist;
         // console.log(this.songList);
         this.coverData.avatar = res.body.playlist.creator.avatarUrl;

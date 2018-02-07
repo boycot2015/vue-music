@@ -1,26 +1,31 @@
 <template>
-   <div>
-     <p class="title">官方榜</p>
+  <div>
+    <div class="container" v-if="isBack">
+      <p class="title">官方榜</p>
       <ul class="mui-table-view">
         <li class="mui-table-view-cell mui-media" v-for="item in topListData" :key="item.id">
-            <router-link :to="'/playlist/detail/'+item.id" >
-                <img class="mui-media-object mui-pull-left" :src="item.coverImgUrl">
-                <div class="mui-media-body">
-                    <p class='mui-ellipsis'><span>1. </span>{{item.tracks[0].name}} - {{item.tracks[0].ar[0].name}}</p>
-                    <p class='mui-ellipsis'><span>2. </span>{{item.tracks[1].name}} - {{item.tracks[1].ar[0].name}}</p>
-                    <p class='mui-ellipsis'><span>3. </span>{{item.tracks[2].name}} - {{item.tracks[2].ar[0].name}}</p>
-                </div>
-            </router-link>
+          <router-link :to="'/playlist/detail/'+item.id">
+            <img class="mui-media-object mui-pull-left" :src="item.coverImgUrl">
+            <div class="mui-media-body">
+              <p class='mui-ellipsis'>
+                <span>1. </span>{{item.tracks[0].name}} - {{item.tracks[0].ar[0].name}}</p>
+              <p class='mui-ellipsis'>
+                <span>2. </span>{{item.tracks[1].name}} - {{item.tracks[1].ar[0].name}}</p>
+              <p class='mui-ellipsis'>
+                <span>3. </span>{{item.tracks[2].name}} - {{item.tracks[2].ar[0].name}}</p>
+            </div>
+          </router-link>
         </li>
-      </ul> 
+      </ul>
       <p class="title">全球榜</p>
       <div class="content">
         <router-link :to="'/playlist/detail/'+item.id" v-for="(item,index) in globalData" :key="index">
-            <img :src="item.coverImgUrl" alt="">
-            <p>{{item.name}}</p>
+          <img :src="item.coverImgUrl" alt="">
+          <p>{{item.name}}</p>
         </router-link>
       </div>
-   </div>
+    </div>
+  </div>
 </template>
    
 <style scoped>
@@ -30,6 +35,9 @@
 .mui-table-view .mui-media-object {
   max-width: 115px;
   height: 115px;
+}
+.child-view {
+  margin: 44px 0 50px 0;
 }
 p.title {
   line-height: 30px;
@@ -59,44 +67,39 @@ p.mui-ellipsis {
 </style>
    
 <script>
-import { Indicator } from 'mint-ui';
+import { Indicator } from "mint-ui";
 export default {
   data() {
     return {
       topListData: [],
-      globalData: []
+      globalData: [],
+      isBack: false
     };
   },
-  beforeMount(){
+  beforeMount() {
     //加载动画开始
-      Indicator.open({
-        spinnerType: 'triple-bounce'
-      });
+    Indicator.open({
+      spinnerType: "triple-bounce"
+    });
   },
-  created() {  
+  created() {
     for (let j = 0; j < 5; j++) {
       this.getTopListData(j);
     }
     for (let i = 5; i <= 23; i++) {
       this.getGlobalData(i);
     }
-  // console.log(this.globalData);
-    // this.getTopListData(0);
-    // this.getTopListData(1);
-    // this.getTopListData(2);
-    // this.getTopListData(3);
-    // this.getTopListData(4);
   },
   methods: {
     getData(api, callback) {
       const url = `${this.apihost}${api}`;
       //console.log(url);
       this.$http.get(url).then(
-        res => {
-           
+        res => {         
           callback(res);
+          this.isBack = true;
           //加载动画结束
-        Indicator.close();
+          Indicator.close();
         },
         err => {}
       );

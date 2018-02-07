@@ -1,9 +1,15 @@
 <template>
-   <div class="homeRoot">   
-        <mt-navbar class="page-part" v-model="selected" fixed>
-            <mt-tab-item :id="1"><span :class="isActive?'active':''">音乐</span></mt-tab-item>
-            <mt-tab-item :id="2"><span>视频</span></mt-tab-item>
-            <mt-tab-item :id="3"><span>电台</span></mt-tab-item>
+    <div class="homeRoot">
+        <mt-navbar :class="ishome?'page-part is-fixed':'page-part'" v-model="selected">
+            <mt-tab-item :id="1">
+                <span :class="isActive?'active':''">音乐</span>
+            </mt-tab-item>
+            <mt-tab-item :id="2">
+                <span>视频</span>
+            </mt-tab-item>
+            <mt-tab-item :id="3">
+                <span>电台</span>
+            </mt-tab-item>
         </mt-navbar>
         <!-- tab-container -->
         <mt-tab-container v-model="selected">
@@ -16,11 +22,23 @@
                     </mt-swipe>
                 </div>
                 <div class="category_list">
-                    <router-link to="/fm"><i></i><span>私人FM</span></router-link>
-                    <router-link to="/dailysong"><i></i><span>每日推荐</span></router-link>
-                    <router-link to="/playlist"><i></i><span>歌单</span></router-link>
-                    <router-link to="/toplist"><i></i><span>排行榜</span></router-link>
-                </div>  
+                    <router-link to="/fm">
+                        <i></i>
+                        <span>私人FM</span>
+                    </router-link>
+                    <router-link to="/dailysong">
+                        <i></i>
+                        <span>每日推荐</span>
+                    </router-link>
+                    <router-link to="/playlist">
+                        <i></i>
+                        <span>歌单</span>
+                    </router-link>
+                    <router-link to="/toplist">
+                        <i></i>
+                        <span>排行榜</span>
+                    </router-link>
+                </div>
                 <div class="songlist">
                     <div class="title">
                         <p>推荐歌单 ></p>
@@ -32,7 +50,7 @@
                         </router-link>
                     </div>
                 </div>
-                
+
                 <div class="songlist">
                     <div class="title">
                         <p>最新音乐 ></p>
@@ -72,7 +90,7 @@
                         <p>精选电台 ></p>
                     </div>
                     <div class="content">
-                        <router-link :to="'/Djprogram/'+item.id" v-for="(item,index) in DjprogramData" :key="index">
+                        <router-link :to="'/Djprogramlist/'+item.id" v-for="(item,index) in DjprogramData" :key="index">
                             <img :src="item.picUrl" alt="">
                             <p>{{item.name}}</p>
                         </router-link>
@@ -87,18 +105,18 @@
                 <subdj></subdj>
             </mt-tab-container-item>
         </mt-tab-container>
-   </div>
+    </div>
 </template>
    
 <style scoped>
-.homeRoot{
-    /* transform: translateY(40px); */
-    margin-top: 90px;
+.homeRoot {
+  /* transform: translateY(40px); */
+  margin-top: 90px;
 }
-.mui-btn.mui-btn-danger{
-    text-align: center;
-    width: 90%;
-    margin: 15px;
+.mui-btn.mui-btn-danger {
+  text-align: center;
+  width: 90%;
+  margin: 15px;
 }
 a {
   text-decoration: none;
@@ -116,20 +134,20 @@ a {
   width: 100%;
   height: 150px;
 }
-.mint-navbar .mint-tab-item{
-    padding: 10px 0;
+.mint-navbar .mint-tab-item {
+  padding: 10px 0;
 }
-.mint-navbar.page-part.is-fixed{
-    /* transform: translateY(40px); */
-    margin-top: 40px;
-    /* transition: all 0.5s; */
+.mint-navbar.page-part.is-fixed {
+  /* transform: translateY(40px); */
+  margin-top: 40px;
+  /* transition: all 0.5s; */
 }
-.mint-swipe-indicator{
-    opacity: 0.4;
+.mint-swipe-indicator {
+  opacity: 0.4;
 }
-.mint-swipe-indicator.is-active{
-    background-color: red;
-    opacity: 1;
+.mint-swipe-indicator.is-active {
+  background-color: red;
+  opacity: 1;
 }
 .mint-swipe img {
   width: 100%;
@@ -167,24 +185,24 @@ a {
   width: 100%;
 }
 .content.mv a:nth-of-type(2n) {
-  margin:0 0 0 8px;
+  margin: 0 0 0 8px;
 }
-.content.mv a{
-    flex: 42%;
+.content.mv a {
+  flex: 42%;
 }
-.content.mv a span{
-    font-size: 12px;
-    color: #ccc;
+.content.mv a span {
+  font-size: 12px;
+  color: #ccc;
 }
-.content.only a{
-    flex: 45%;
-    margin: 0;
+.content.only a {
+  flex: 45%;
+  margin: 0;
 }
-.content.only a:nth-of-type(1){
-    margin-right:10px; 
+.content.only a:nth-of-type(1) {
+  margin-right: 10px;
 }
-.content.only a:nth-of-type(3){
-    flex-basis: 100%;
+.content.only a:nth-of-type(3) {
+  flex-basis: 100%;
 }
 .content a p {
   font-size: 14px;
@@ -198,54 +216,61 @@ a {
 </style>
    
 <script>
-import subdj from './subcomponents/dj';
-import submv from './subcomponents/mv';
-import { Indicator } from 'mint-ui';
+import subdj from "./subcomponents/dj";
+import submv from "./subcomponents/mv";
+import { Indicator } from "mint-ui";
 export default {
-    components:{
-        subdj,submv
-    },
+  components: {
+    subdj,
+    submv
+  },
   data() {
     return {
       imgData: {},
       recommendData: {},
       newSongData: {},
-      recMVList:{},
-      privateContent:{},
-      DjprogramData:{},
+      recMVList: {},
+      privateContent: {},
+      DjprogramData: {},
       isActive: true,
       selected: 1,
-      value: 1
+      value: 1,
+      ishome: true
     };
   },
   created() {
-      //加载动画开始
-      Indicator.open({
-        spinnerType: 'triple-bounce'
-      });
+    //加载动画开始
+    Indicator.open({
+      spinnerType: "triple-bounce"
+    });
     this.getImageData();
     this.getRecommend();
     this.getnewSong();
     this.getrecMV();
     this.getPrivatecontent();
     this.getDjprogram();
+    // this.fixedBar();
+  },
+  beforeDestroy() {
+    this.ishome = false;
   },
   methods: {
     getData(api, callback) {
       const url = `${this.apihost}${api}`;
-    //    console.log(url);
-      this.$http
-        .get(url)
-        .then(res => {
-            callback(res);
-            //加载动画结束
-        Indicator.close();
-        },err => {})
+      //    console.log(url);
+      this.$http.get(url).then(
+        res => {
+          callback(res);
+          //加载动画结束
+          Indicator.close();
+        },
+        err => {}
+      );
     },
     getImageData() {
       this.getData("/banner", res => {
         //  console.log(res.body);
-          
+
         this.imgData = res.body.banners;
       });
     },
@@ -261,23 +286,31 @@ export default {
         this.newSongData = res.body.playlists;
       });
     },
-    getrecMV(){
-        this.getData("/personalized/mv", res => {
+    getrecMV() {
+      this.getData("/personalized/mv", res => {
         //  console.log(res.body);
         this.recMVList = res.body.result;
       });
     },
-    getPrivatecontent(){
-         this.getData("/personalized/privatecontent", res => {
-         console.log(res.body);
+    getPrivatecontent() {
+      this.getData("/personalized/privatecontent", res => {
+        //  console.log(res.body);
         this.privateContent = res.body.result;
       });
     },
-    getDjprogram(){
-         this.getData("/personalized/djprogram", res => {
+    getDjprogram() {
+      this.getData("/personalized/djprogram", res => {
         //  console.log(res.body);
         this.DjprogramData = res.body.result;
       });
+    },
+    fixedBar() {
+      let that = this;
+      window.onscroll = function() {
+        console.log(1);
+
+        that.ishome = true;
+      };
     }
   }
 };

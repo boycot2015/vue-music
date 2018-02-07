@@ -5,7 +5,7 @@
                 <p>个性电台推荐 ></p>
             </div>
             <div class="content">
-                <router-link :to="'/radiosDetail'+item.id" v-for="(item,index) in djRadiosList" :key="index">
+                <router-link :to="'/Djprogramlist/'+item.id" v-for="(item,index) in djRadiosList" :key="index">
                     <img :src="item.picUrl" alt="">
                     <p>{{item.name}}</p>
                 </router-link>

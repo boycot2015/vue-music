@@ -1,11 +1,19 @@
 <template>
-   <div class="root">
+  <div class="root">
     <!-- 侧滑导航根容器 -->
-     <div  :class="isShow?'userSide show':'userSide'">
-       <div @click="hideSide" class="mask">           
-       </div>
-       <div class="container"></div> 
-     </div>
+    <div :class="isShow?'userSide show':'userSide'">
+      <div @click="hideSide" class="mask">
+      </div>
+      <div class="container">
+        <div @click="showPage">
+          <mt-cell :title="isBack?userData.nickname:'登录/注册'">
+            <span>签到</span>
+            <img slot="icon" :src="isBack?userData.avatarUrl:'../src/static/images/menu10.png'" width="24" height="24">
+          </mt-cell>
+        </div>
+
+      </div>
+    </div>
     <!-- 主页面标题 -->
     <header class="mui-bar mui-bar-nav">
       <a @click="showUser" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
@@ -15,43 +23,41 @@
     </header>
     <div class="body">
       <div class="container">
-        <transition :name="transitionName" >
+        <transition name="component-fade" mode="in-out">
           <router-view class="child-view"></router-view>
         </transition>
-      </div>     
+      </div>
     </div>
-    
-    
+
     <div class="footer">
       <mt-tabbar fixed>
         <mt-tab-item id="tab1">
-            <img width="30" src="./static/images/menu10.png" alt="">
-            <div class="right">
-              <p>红颜</p>
-              <span>左右滑动可以切换歌曲</span>
-            </div>
-            </mt-tab-item>
-            <mt-tab-item id="tab2">
-                <i class="mui-icon mui-icon-refresh"></i>
-                <audios></audios>
-            </mt-tab-item>
-            <mt-tab-item id="tab2" >
-              <i class="mui-icon mui-icon-bars" @click="popList"></i>
-                <mt-actionsheet :cancelText="''" :actions="actions" v-model="sheetVisible">    
-                </mt-actionsheet>
-            </mt-tab-item>
-          </mt-tabbar>
+          <img width="30" src="./static/images/menu10.png" alt="">
+          <div class="right">
+            <p>红颜</p>
+            <span>左右滑动可以切换歌曲</span>
+          </div>
+        </mt-tab-item>
+        <mt-tab-item id="tab2">
+          <i class="mui-icon mui-icon-refresh"></i>
+          <audios></audios>
+        </mt-tab-item>
+        <mt-tab-item id="tab2">
+          <i class="mui-icon mui-icon-bars" @click="popList"></i>
+          <mt-actionsheet :cancelText="''" :actions="actions" v-model="sheetVisible">
+          </mt-actionsheet>
+        </mt-tab-item>
+      </mt-tabbar>
     </div>
-   </div>
+  </div>
 </template>
    
 <style >
 body {
   margin: 0;
   padding: 0;
-  
 }
-.root{
+.root {
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -70,6 +76,7 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
+  z-index: 8;
   background: rgba(0, 0, 0, 0.6);
 }
 .userSide.show {
@@ -78,6 +85,7 @@ body {
 .userSide .container {
   width: 70%;
   height: 100%;
+  z-index: 9;
   position: absolute;
   background: #fff;
 }
@@ -166,41 +174,54 @@ a .mint-tab-item-label {
   padding-top: 10px;
 }
 
-.container{
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+.component-fade-enter-active,
+.component-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.component-fade-enter,
+.component-fade-leave-to {
+  opacity: 0;
+  /* transform: translateX(100%); */
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  /* overflow: hidden; */
 }
 /* 上面是为了保证滑动的时候不出现抖动情况 */
 .child-view {
-    position: absolute;
-    left:0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    transition: all .5s cubic-bezier(.55,0,.1,1);
-    background-color: #f2f2f2;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 40px 0;
+  height: 100%;
+  width: 100%;
+  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+  background-color: #f2f2f2;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 /* 当child-view的内容过多时会撑开child-view使得内部能够滚动 */
-.slide-left-enter, .slide-right-leave-active {
-    opacity: 0;
-    -webkit-transform: translate(750px, 0);
-    transform:translate(750px, 0);
+.slide-left-enter,
+.slide-right-leave-active {
+  opacity: 0;
+  -webkit-transform: translate(750px, 0);
+  transform: translate(750px, 0);
 }
-.slide-left-leave-active, .slide-right-enter {
-    opacity: 0;
-    -webkit-transform: translate( -750px, 0);
-    transform: translate(-750px, 0);
+.slide-left-leave-active,
+.slide-right-enter {
+  opacity: 0;
+  -webkit-transform: translate(-750px, 0);
+  transform: translate(-750px, 0);
 }
 .slide-enter-active {
-    -webkit-transition: all .3s ease;
-    transition: all .3s ease;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 .slide-leave-active {
-    -webkit-transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-    transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  -webkit-transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
+  transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
 }
 /* 然后写上切换时候的类名的CSS变化(这里最好看一下VUE的transition文档) */
 </style>
@@ -213,7 +234,7 @@ export default {
   },
   data() {
     return {
-      transitionName:'',
+      transitionName: "",
       sheetVisible: false,
       actions: [
         { name: "红颜", method: "" },
@@ -227,6 +248,9 @@ export default {
       ],
       cancelText: "",
       isShow: false,
+      isBack: false,
+      userData: {},
+      id: ""
     };
   },
   watch: {
@@ -234,12 +258,20 @@ export default {
       const toDepth = to.path.split("/").length;
       const fromDepth = from.path.split("/").length;
       this.transitionName = toDepth < fromDepth ? "slide-right" : "slide-left";
+      this.id = window.sessionStorage.getItem("uid");
+      this.getUserInfo(this.id);
     }
+  },
+  created() {
+    this.id = window.sessionStorage.getItem("uid");
+    this.getUserInfo(this.id);
   },
   updated() {
     if (this.$route == `/videoplayer/${this.$route.params.videoId}`) {
       document.querySelector("video").pause;
-    }
+    }    
+    // this.id = window.sessionStorage.getItem("uid");
+    // this.getUserInfo(this.id);
   },
   methods: {
     popList() {
@@ -254,6 +286,30 @@ export default {
       //  alert(1)
       document.body.style.overflow = "visible";
       this.isShow = !this.isShow;
+    },
+    showPage() {
+      this.hideSide();
+      if (this.isBack) {
+        this.$router.push("/userinfo");
+      } else {
+        this.$router.push("/login");
+      }
+    },
+    getUserInfo(id) {
+      // console.log(window.sessionStorage.getItem('uid'));
+      if (id) {
+        let url = `${this.apihost}/user/detail?uid=${id}`;
+        this.$http.get(url).then(
+          res => {
+            this.isBack = true;
+            // console.log(res.body);
+            this.userData = res.body.profile;
+          },
+          err => {}
+        );
+      } else {
+        this.isBack = false;
+      }
     }
   }
 };
