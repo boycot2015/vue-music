@@ -39,8 +39,9 @@
           </div>
         </mt-tab-item>
         <mt-tab-item id="tab2">
-          <i class="mui-icon mui-icon-refresh"></i>
-          <audios></audios>
+          <i class="mui-icon mui-icon-refresh" @click="changeState">
+            <audios :isplay="isPlay"></audios>
+          </i>
         </mt-tab-item>
         <mt-tab-item id="tab2">
           <i class="mui-icon mui-icon-bars" @click="popList"></i>
@@ -250,6 +251,7 @@ export default {
       isShow: false,
       isBack: false,
       userData: {},
+      isPlay:true,
       id: ""
     };
   },
@@ -269,7 +271,8 @@ export default {
   updated() {
     if (this.$route == `/videoplayer/${this.$route.params.videoId}`) {
       document.querySelector("video").pause;
-    }    
+    }
+    
     // this.id = window.sessionStorage.getItem("uid");
     // this.getUserInfo(this.id);
   },
@@ -310,6 +313,9 @@ export default {
       } else {
         this.isBack = false;
       }
+    },
+    changeState() {
+      this.isPlay = !this.isPlay;     
     }
   }
 };

@@ -39,7 +39,7 @@
        methods: {
            getCommentData(){
                const url = `${this.apihost}/comment/mv?id=${this.videoId}`;
-               console.log(url);
+            //    console.log(url);
                this.$http.get(url).then(res=>{
                    this.commentList = res.body.comments;
                    this.totalNum = res.body.total;

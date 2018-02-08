@@ -12,7 +12,7 @@
             </div>
             <div class="mui-button-row">
                 <button type="button" @click="comformLogin" class="mui-btn mui-btn-primary">确认</button>
-                <button type="button" class="mui-btn mui-btn-danger">取消</button>
+                <button type="button" @click="cancelLogin" class="mui-btn mui-btn-danger">取消</button>
             </div>
         </form>
     </div>
@@ -56,6 +56,9 @@ export default {
                 mui.toast('登陆失败',{ duration:'long', type:'div' }); 
              } 
           },err=>{})
+      },
+      cancelLogin(){
+          this.$router.push('/home');
       }
   }
 };

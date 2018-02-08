@@ -257,7 +257,7 @@ export default {
   methods: {
     getData(api, callback) {
       const url = `${this.apihost}${api}`;
-      //    console.log(url);
+        //  console.log(url);
       this.$http.get(url).then(
         res => {
           callback(res);

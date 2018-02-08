@@ -99,13 +99,13 @@ export default {
   },
   methods: {
     getData() {
-      let url = `${this.apihost}/dj/detail?rid=${this.$route.params.listId}`;
+      let url = `${this.apihost}/dj/program?rid=${this.$route.params.listId}`;
       this.$http.get(url).then(
         res => {
           //加载动画结束
           Indicator.close();
           this.isBack = true;
-          console.log(res.body);
+          // console.log(res.body);
           this.coverData = res.body.programs[0];
           this.totalCount = res.body.count;
           this.DJlist = res.body.programs;

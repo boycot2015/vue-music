@@ -33,7 +33,7 @@
        },
        methods: {
            getPlayData(){
-               console.log(this.$route.params.mvId);
+            //    console.log(this.$route.params.mvId);
                const url = `${this.apihost}/mv?mvid=${this.$route.params.videoId}`;
                this.$http.get(url).then(res=>{
                    const videoUrl = `${this.apihost}/mv/?url=${res.body.data.brs[480]}`;
